@@ -42,7 +42,7 @@ class CodeGenerator
      */
     private function selectRandomTool(): GeneratorToolInterface
     {
-        $tool_class = \array_rand($this->tools);
+        $tool_class = $this->tools[\array_rand($this->tools)];
 
         return new $tool_class;
     }

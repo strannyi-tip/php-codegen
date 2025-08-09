@@ -17,13 +17,13 @@ class SimpleCode implements GeneratorToolInterface
      */
     public function generate(ConfigurationInterface $configuration): int
     {
-        $result = '';
-        for ($i = 0; $i < $configuration->get('length', 4); $i++) {
-            try {
-                $result .= \random_int(0, 9);
-            } catch (RandomException $e) {
-                $result .= 0;
-            }
+        $min = pow(10, $configuration->get('length') - 1);
+        $max = pow(10, $configuration->get('length')) - 1;
+
+        try {
+            $result = \random_int($min, $max);
+        } catch (RandomException) {
+            $result = $max;
         }
 
         return $result;
