@@ -1,6 +1,6 @@
 <?php
 
-namespace unit\tests\unit;
+namespace unit;
 
 use StrannyiTip\PhpCodegen\CodeGenerator;
 use UnitTester;
