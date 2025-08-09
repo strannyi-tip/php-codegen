@@ -1,0 +1,23 @@
+{
+    "name": "strannyi_tip/php-codegen",
+    "description": "PHP number-code generator",
+    "type": "library",
+    "license": "GPL-3.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "StrannyiTip\\PhpCodegen\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "strannyi-tip",
+            "email": "0x00.dev@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "codeception/codeception": "^4.2@beta",
+        "codeception/module-phpbrowser": "^1.0.0",
+        "codeception/module-asserts": "^1.0.0"
+    }
+}
