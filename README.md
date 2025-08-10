@@ -18,4 +18,6 @@ $generator->generate(5);//27341
 $generator->generate(6, CodeGenerator::MIRROR_METHOD);//195591
 //generate code with repeat generator
 $generator->generate(5, CodeGenerator::REPEAT_METHOD);//22922
+//generate code with random generator
+$generator->generate(5, CodeGenerator::RANDOM_METHOD);
 ```
