@@ -13,6 +13,7 @@ $generator = new CodeGenerator();
 
 //generate code with default generator
 //as default using CodeGenerator::SIMPLE_METHOD
+//5 - code length
 $generator->generate(5);//27341
 //generate code with mirror generator
 $generator->generate(6, CodeGenerator::MIRROR_METHOD);//195591
