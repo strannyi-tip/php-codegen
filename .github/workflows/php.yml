@@ -1,4 +1,4 @@
-name: PHP Codeception
+name: codeception
 
 on:
   push:
