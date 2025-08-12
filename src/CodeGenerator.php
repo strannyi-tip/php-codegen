@@ -3,10 +3,12 @@
 namespace StrannyiTip\PhpCodegen;
 
 use StrannyiTip\PhpCodegen\Interfaces\ConfigurationInterface;
-use StrannyiTip\PhpCodegen\Interfaces\GeneratorToolInterface;
 use StrannyiTip\PhpCodegen\Tool\MirrorCode;
 use StrannyiTip\PhpCodegen\Tool\RepeatCode;
 use StrannyiTip\PhpCodegen\Tool\SimpleCode;
+use StrannyiTip\PhpCodegen\Tool\SwingCodeDown;
+use StrannyiTip\PhpCodegen\Tool\SwingCodeRandom;
+use StrannyiTip\PhpCodegen\Tool\SwingCodeUp;
 
 /**
  * Number code generator.
@@ -34,6 +36,21 @@ class CodeGenerator
     public const string REPEAT_METHOD = 'repeat';
 
     /**
+     * Swing up method.
+     */
+    public const string SWING_UP_METHOD = 'swing_up';
+
+    /**
+     * Swing down method.
+     */
+    public const string SWING_DOWN_METHOD = 'swing_down';
+
+    /**
+     * Swing random method.
+     */
+    public const string SWING_RANDOM_METHOD = 'swing_random';
+
+    /**
      * Tools container.
      *
      * @var array
@@ -42,43 +59,45 @@ class CodeGenerator
         self::SIMPLE_METHOD => SimpleCode::class,
         self::MIRROR_METHOD => MirrorCode::class,
         self::REPEAT_METHOD => RepeatCode::class,
+        self::SWING_UP_METHOD => SwingCodeUp::class,
+        self::SWING_DOWN_METHOD => SwingCodeDown::class,
+        self::SWING_RANDOM_METHOD => SwingCodeRandom::class,
     ];
 
     /**
-     * Tool configuration.
+     * Select random tool class for generate.
      *
-     * @var ConfigurationInterface
+     * @return string
      */
-    private ConfigurationInterface $config;
-
-    /**
-     * Constructor.
-     */
-    public function __construct()
+    private function selectRandomTool(): string
     {
-        $this->config = new Configuration();
+        return $this->tools[\array_rand($this->tools)];
     }
 
     /**
-     * Select random tool for generate.
+     * Check if generator has method.
      *
-     * @return GeneratorToolInterface one
+     * @param string $method Generator method
+     *
+     * @return bool
      */
-    private function selectRandomTool(): GeneratorToolInterface
+    private function hasMethod(string $method): bool
     {
-        $tool_class = $this->tools[\array_rand($this->tools)];
-
-        return new $tool_class;
+        return \array_key_exists($method, $this->tools);
     }
 
     /**
-     * Configuration referrer.
+     * Select tool class name.
      *
-     * @return ConfigurationInterface
+     * @param string $method Generator method
+     *
+     * @return string
      */
-    public function configuration(): ConfigurationInterface
+    private function selectToolClass(string $method): string
     {
-        return $this->config;
+        return $this->hasMethod($method) ?
+            self::RANDOM_METHOD === $method ? $this->selectRandomTool() : $this->tools[$method] :
+            $this->selectRandomTool();
     }
 
     /**
@@ -91,23 +110,8 @@ class CodeGenerator
      */
     public function generate(int $length, string $method = self::RANDOM_METHOD): int
     {
-        $this->config->set('length', $length);
+        $tool_class = $this->selectToolClass($method);
 
-        $tool_class = match ($method) {
-            self::SIMPLE_METHOD => $this->tools[self::SIMPLE_METHOD],
-            self::MIRROR_METHOD => $this->tools[self::MIRROR_METHOD],
-            self::REPEAT_METHOD => $this->tools[self::REPEAT_METHOD],
-            default => $this->selectRandomTool(),
-        };
-
-        $result = (new $tool_class)->generate($this->config);
-        if (\strlen($result) < $length) {
-            $result .= (new $tool_class)->generate((new Configuration())->set('length', $length - \strlen($result)));
-        }
-        if (\strlen($result) > $length) {
-            $result = \substr($result, 0, $length);
-        }
-
-        return $result;
+        return (new $tool_class)->generate((new Configuration())->set('length', $length));
     }
 }

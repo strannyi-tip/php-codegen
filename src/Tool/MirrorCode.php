@@ -43,10 +43,10 @@ class MirrorCode implements GeneratorToolInterface
      */
     private function generateSimple(int $length): int
     {
-        $number = $this->generator->generate((new Configuration())->set('length', $length/2));
+        $number = $this->generator->generate((new Configuration())->set('length', floor($length/2)));
         $mirror = $this->generateMirror($number);
 
-        return $number . $mirror;
+        return intval($number . $mirror);
     }
 
     /**
@@ -58,21 +58,22 @@ class MirrorCode implements GeneratorToolInterface
      */
     private function generateComplex(int $length): int
     {
-        $number = $this->generator->generate((new Configuration())->set('length', $length/2));
-        $mirror = $this->generateMirror(intval(\substr($number, 0, $length/2)));
+        $number = $this->generator->generate((new Configuration())->set('length', floor($length/2)));
+        $mirror = $this->generateMirror(\substr($number, 0, floor($length/2)));
+        $delimiter = $this->generator->generate((new Configuration())->set('length', 1));
 
-        return $number . $mirror;
+        return intval(sprintf('%d%d%s', $number, $delimiter, $mirror));
     }
 
     /**
      * Generate number mirror.
      *
-     * @param int $number Number for mirroring
+     * @param string $number Number for mirroring
      *
-     * @return int
+     * @return string
      */
-    private function generateMirror(int $number): int
+    private function generateMirror(string $number): string
     {
-        return \strrev((string)$number);
+        return \strrev($number);
     }
 }
