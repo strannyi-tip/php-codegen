@@ -34,6 +34,10 @@ class CodeGeneratorTest extends Unit
         $this->tester->assertEquals(4, \strlen($fill_code), "Test for generate expected length with fill method");
         $round_code = $this->generator->generate(6, CodeGenerator::ROUND_METHOD);
         $this->tester->assertEquals(6, \strlen($round_code), "Test for generate expected length with round method");
+        $swing_code_up = $this->generator->generate(6, CodeGenerator::SWING_UP_METHOD);
+        $this->tester->assertEquals(6, \strlen($swing_code_up), "Test for generate expected length with swing_up method");
+        $swing_code_down = $this->generator->generate(6, CodeGenerator::SWING_DOWN_METHOD);
+        $this->tester->assertEquals(6, \strlen($swing_code_down), "Test for generate expected length with swing_down method");
     }
 
     public function testFillCode()
