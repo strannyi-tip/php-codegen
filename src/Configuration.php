@@ -4,6 +4,10 @@ namespace StrannyiTip\PhpCodegen;
 
 use StrannyiTip\PhpCodegen\Interfaces\ConfigurationInterface;
 
+
+/**
+ * Configuration.
+ */
 class Configuration implements Interfaces\ConfigurationInterface
 {
 

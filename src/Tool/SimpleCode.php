@@ -17,15 +17,11 @@ class SimpleCode implements GeneratorToolInterface
      */
     public function generate(ConfigurationInterface $configuration): int
     {
-        $min = pow(10, $configuration->get('length') - 1);
-        $max = pow(10, $configuration->get('length')) - 1;
+        $length = $configuration->get('length');
 
-        try {
-            $result = \random_int($min, $max);
-        } catch (RandomException) {
-            $result = $max;
-        }
+        $min = \str_repeat('1', $length);
+        $max = \str_repeat('9', $length);
 
-        return $result;
+        return \mt_rand(intval($min), intval($max));
     }
 }

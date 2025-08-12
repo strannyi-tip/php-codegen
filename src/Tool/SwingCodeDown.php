@@ -6,13 +6,11 @@ use StrannyiTip\PhpCodegen\Configuration;
 use StrannyiTip\PhpCodegen\Interfaces\ConfigurationInterface;
 use StrannyiTip\PhpCodegen\Interfaces\GeneratorToolInterface;
 
-
 /**
- * Repeat code generator.
+ * Swing code down.
  */
-class RepeatCode implements GeneratorToolInterface
+class SwingCodeDown implements GeneratorToolInterface
 {
-
     /**
      * Code generator.
      *
@@ -39,34 +37,31 @@ class RepeatCode implements GeneratorToolInterface
     }
 
     /**
-     * Generate simple repeat.
+     * Generate simple code.
      *
-     * @param int $length Number
+     * @param int $length Code length
      *
      * @return int
      */
     private function generateSimple(int $length): int
     {
-        $number = $this->generator->generate((new Configuration())->set('length', 2));
+        $number = $this->generator->generate((new Configuration())->set('length', floor($length/2)));
 
-        return intval(str_repeat($number, floor($length / 2)));
+        return $number . $number - 1;
     }
 
     /**
-     * Generate complex repeat.
+     * Generate complex code.
      *
-     * @param int $length Number
+     * @param int $length Code length
      *
      * @return int
      */
     private function generateComplex(int $length): int
     {
-        $number = $this->generator->generate((new Configuration())->set('length', 2));
+        $number = $this->generator->generate((new Configuration())->set('length', floor($length/2)));
         $delimiter = $this->generator->generate((new Configuration())->set('length', 1));
-        $final_number = str_repeat($number, floor($length / 2));
-        $string_array = str_split($final_number);
-        $string_array[($length/2)-1] = substr($number, 1, 1) . $delimiter;
 
-        return intval(implode('', $string_array));
+        return intval($number . $delimiter . $number - 1);
     }
 }
