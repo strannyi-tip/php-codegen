@@ -2,13 +2,13 @@
 
 namespace StrannyiTip\PhpCodegen\Tool;
 
-
 use StrannyiTip\PhpCodegen\AbstractTool;
 
+
 /**
- * Fill code.
+ * Round generator.
  */
-class FillCode extends AbstractTool
+class RoundCode extends AbstractTool
 {
     /**
      * @inheritDoc
@@ -17,6 +17,6 @@ class FillCode extends AbstractTool
     {
         $number = $this->generator->generate(1);
 
-        return intval(\str_repeat($number, $length));
+        return intval($number . \str_repeat('0', $length - 1));
     }
 }

@@ -2,36 +2,20 @@
 
 namespace StrannyiTip\PhpCodegen\Tool;
 
-use StrannyiTip\PhpCodegen\Configuration;
-use StrannyiTip\PhpCodegen\Interfaces\ConfigurationInterface;
-use StrannyiTip\PhpCodegen\Interfaces\GeneratorToolInterface;
 
+use StrannyiTip\PhpCodegen\AbstractTool;
 
 /**
  * Repeat code generator.
  */
-class RepeatCode implements GeneratorToolInterface
+class RepeatCode extends AbstractTool
 {
-
-    /**
-     * Code generator.
-     *
-     * @var SimpleCode
-     */
-    private SimpleCode $generator;
-
-    public function __construct()
-    {
-        $this->generator = new SimpleCode();
-    }
 
     /**
      * @inheritDoc
      */
-    public function generate(ConfigurationInterface $configuration): int
+    public function generate(int $length): int
     {
-        $length = $configuration->get('length', 6);
-
         return match ($length%2 === 0) {
             true => $this->generateSimple($length),
             false => $this->generateComplex($length),
@@ -47,7 +31,7 @@ class RepeatCode implements GeneratorToolInterface
      */
     private function generateSimple(int $length): int
     {
-        $number = $this->generator->generate((new Configuration())->set('length', 2));
+        $number = $this->generator->generate(2);
 
         return intval(str_repeat($number, floor($length / 2)));
     }
@@ -61,8 +45,8 @@ class RepeatCode implements GeneratorToolInterface
      */
     private function generateComplex(int $length): int
     {
-        $number = $this->generator->generate((new Configuration())->set('length', 2));
-        $delimiter = $this->generator->generate((new Configuration())->set('length', 1));
+        $number = $this->generator->generate(2);
+        $delimiter = $this->generator->generate(1);
         $final_number = str_repeat($number, floor($length / 2));
         $string_array = str_split($final_number);
         $string_array[($length/2)-1] = substr($number, 1, 1) . $delimiter;

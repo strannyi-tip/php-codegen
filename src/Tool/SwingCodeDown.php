@@ -2,34 +2,18 @@
 
 namespace StrannyiTip\PhpCodegen\Tool;
 
-use StrannyiTip\PhpCodegen\Configuration;
-use StrannyiTip\PhpCodegen\Interfaces\ConfigurationInterface;
-use StrannyiTip\PhpCodegen\Interfaces\GeneratorToolInterface;
+use StrannyiTip\PhpCodegen\AbstractTool;
 
 /**
  * Swing code down.
  */
-class SwingCodeDown implements GeneratorToolInterface
+class SwingCodeDown extends AbstractTool
 {
-    /**
-     * Code generator.
-     *
-     * @var SimpleCode
-     */
-    private SimpleCode $generator;
-
-    public function __construct()
-    {
-        $this->generator = new SimpleCode();
-    }
-
     /**
      * @inheritDoc
      */
-    public function generate(ConfigurationInterface $configuration): int
+    public function generate(int $length): int
     {
-        $length = $configuration->get('length', 6);
-
         return match ($length%2 === 0) {
             true => $this->generateSimple($length),
             false => $this->generateComplex($length),
@@ -45,7 +29,7 @@ class SwingCodeDown implements GeneratorToolInterface
      */
     private function generateSimple(int $length): int
     {
-        $number = $this->generator->generate((new Configuration())->set('length', floor($length/2)));
+        $number = $this->generator->generate(floor($length/2));
 
         return $number . $number - 1;
     }
@@ -59,8 +43,8 @@ class SwingCodeDown implements GeneratorToolInterface
      */
     private function generateComplex(int $length): int
     {
-        $number = $this->generator->generate((new Configuration())->set('length', floor($length/2)));
-        $delimiter = $this->generator->generate((new Configuration())->set('length', 1));
+        $number = $this->generator->generate(floor($length/2));
+        $delimiter = $this->generator->generate(1);
 
         return intval($number . $delimiter . $number - 1);
     }
