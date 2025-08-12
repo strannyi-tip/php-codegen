@@ -2,35 +2,16 @@
 
 namespace StrannyiTip\PhpCodegen\Tool;
 
-use StrannyiTip\PhpCodegen\Configuration;
-use StrannyiTip\PhpCodegen\Interfaces\ConfigurationInterface;
-use StrannyiTip\PhpCodegen\Interfaces\GeneratorToolInterface;
+use StrannyiTip\PhpCodegen\AbstractTool;
 
 
 /**
  * Mirror code generator.
  */
-class MirrorCode implements GeneratorToolInterface
+class MirrorCode extends AbstractTool
 {
-    /**
-     * Code generator.
-     *
-     * @var SimpleCode
-     */
-    private SimpleCode $generator;
-
-    public function __construct()
+    public function generate(int $length): int
     {
-        $this->generator = new SimpleCode();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function generate(ConfigurationInterface $configuration): int
-    {
-        $length = $configuration->get('length', 6);
-
         return $length%2 === 0 ? $this->generateSimple($length) : $this->generateComplex($length);
     }
 
@@ -43,7 +24,7 @@ class MirrorCode implements GeneratorToolInterface
      */
     private function generateSimple(int $length): int
     {
-        $number = $this->generator->generate((new Configuration())->set('length', floor($length/2)));
+        $number = $this->generator->generate(floor($length/2));
         $mirror = $this->generateMirror($number);
 
         return intval($number . $mirror);
@@ -58,9 +39,9 @@ class MirrorCode implements GeneratorToolInterface
      */
     private function generateComplex(int $length): int
     {
-        $number = $this->generator->generate((new Configuration())->set('length', floor($length/2)));
+        $number = $this->generator->generate(floor($length/2));
         $mirror = $this->generateMirror(\substr($number, 0, floor($length/2)));
-        $delimiter = $this->generator->generate((new Configuration())->set('length', 1));
+        $delimiter = $this->generator->generate(1);
 
         return intval(sprintf('%d%d%s', $number, $delimiter, $mirror));
     }

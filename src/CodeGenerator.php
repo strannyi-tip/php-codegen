@@ -2,11 +2,13 @@
 
 namespace StrannyiTip\PhpCodegen;
 
+use StrannyiTip\PhpCodegen\Generator\SimpleRandomGenerator;
+use StrannyiTip\PhpCodegen\Interfaces\GeneratorToolInterface;
+use StrannyiTip\PhpCodegen\Interfaces\RandomGeneratorInterface;
 use StrannyiTip\PhpCodegen\Tool\FillCode;
 use StrannyiTip\PhpCodegen\Tool\MirrorCode;
 use StrannyiTip\PhpCodegen\Tool\RepeatCode;
 use StrannyiTip\PhpCodegen\Tool\RoundCode;
-use StrannyiTip\PhpCodegen\Tool\SimpleCode;
 use StrannyiTip\PhpCodegen\Tool\SwingCodeDown;
 use StrannyiTip\PhpCodegen\Tool\SwingCodeRandom;
 use StrannyiTip\PhpCodegen\Tool\SwingCodeUp;
@@ -17,11 +19,6 @@ use StrannyiTip\PhpCodegen\Tool\SwingCodeUp;
  */
 class CodeGenerator
 {
-    /**
-     * Simple method.
-     */
-    public const string SIMPLE_METHOD = 'simple';
-
     /**
      * Mirror method.
      */
@@ -63,12 +60,18 @@ class CodeGenerator
     public const string ROUND_METHOD = 'round';
 
     /**
+     * Random generator.
+     *
+     * @var RandomGeneratorInterface
+     */
+    private RandomGeneratorInterface $generator;
+
+    /**
      * Tools container.
      *
      * @var array
      */
     private array $tools = [
-        self::SIMPLE_METHOD => SimpleCode::class,
         self::MIRROR_METHOD => MirrorCode::class,
         self::REPEAT_METHOD => RepeatCode::class,
         self::SWING_UP_METHOD => SwingCodeUp::class,
@@ -114,6 +117,25 @@ class CodeGenerator
             $this->selectRandomTool();
     }
 
+    public function __construct()
+    {
+        $this->generator = new SimpleRandomGenerator();
+    }
+
+    /**
+     * Set random generator.
+     *
+     * @param RandomGeneratorInterface $generator Random generator
+     *
+     * @return CodeGenerator
+     */
+    public function setRandomGenerator(RandomGeneratorInterface $generator): CodeGenerator
+    {
+        $this->generator = $generator;
+
+        return $this;
+    }
+
     /**
      * Generate code.
      *
@@ -125,7 +147,10 @@ class CodeGenerator
     public function generate(int $length, string $method = self::RANDOM_METHOD): int
     {
         $tool_class = $this->selectToolClass($method);
+        /** @var GeneratorToolInterface $tool_instance */
+        $tool_instance = new $tool_class;
+        $tool_instance->setGenerator($this->generator);
 
-        return (new $tool_class)->generate((new Configuration())->set('length', $length));
+        return $tool_instance->generate($length);
     }
 }

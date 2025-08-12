@@ -2,10 +2,12 @@
 
 namespace unit;
 
+use Codeception\Test\Unit;
 use StrannyiTip\PhpCodegen\CodeGenerator;
+use StrannyiTip\PhpCodegen\Generator\TestRandomGenerator;
 use UnitTester;
 
-class CodeGeneratorTest extends \Codeception\Test\Unit
+class CodeGeneratorTest extends Unit
 {
     protected UnitTester $tester;
 
@@ -14,8 +16,9 @@ class CodeGeneratorTest extends \Codeception\Test\Unit
     protected function _before(): void
     {
         $this->generator = new CodeGenerator();
+        $this->generator->setRandomGenerator(new TestRandomGenerator());
     }
-    public function testGenerate()
+    public function testGenerateLengths()
     {
         $number = $this->generator->generate(6);
         $this->tester->assertEquals(6, \strlen($number), "Test for generate expected length");
@@ -31,5 +34,41 @@ class CodeGeneratorTest extends \Codeception\Test\Unit
         $this->tester->assertEquals(4, \strlen($fill_code), "Test for generate expected length with fill method");
         $round_code = $this->generator->generate(6, CodeGenerator::ROUND_METHOD);
         $this->tester->assertEquals(6, \strlen($round_code), "Test for generate expected length with round method");
+    }
+
+    public function testFillCode()
+    {
+        $number = $this->generator->generate(4, CodeGenerator::FILL_METHOD);
+        $this->tester->assertEquals(7777, $number, 'FillCode generate test');
+    }
+
+    public function testMirrorCode()
+    {
+        $number = $this->generator->generate(5, CodeGenerator::MIRROR_METHOD);
+        $this->tester->assertEquals(54745, $number, 'MirrorCode generate test');
+    }
+
+    public function testRepeatCode()
+    {
+        $number = $this->generator->generate(6, CodeGenerator::REPEAT_METHOD);
+        $this->tester->assertEquals(545454, $number, 'RepeatCode generate test');
+    }
+
+    public function testRoundCode()
+    {
+        $number = $this->generator->generate(4, CodeGenerator::FILL_METHOD);
+        $this->tester->assertEquals(7777, $number, 'RoundCode generate test');
+    }
+
+    public function testSwingDownCode()
+    {
+        $number = $this->generator->generate(4, CodeGenerator::SWING_DOWN_METHOD);
+        $this->tester->assertEquals(5453, $number, 'SwingCodeDown generate test');
+    }
+
+    public function testSwingUpCode()
+    {
+        $number = $this->generator->generate(4, CodeGenerator::SWING_UP_METHOD);
+        $this->tester->assertEquals(5455, $number, 'SwingCodeUp generate test');
     }
 }

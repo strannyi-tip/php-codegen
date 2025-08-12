@@ -2,34 +2,23 @@
 
 namespace StrannyiTip\PhpCodegen\Tool;
 
-use StrannyiTip\PhpCodegen\Configuration;
-use StrannyiTip\PhpCodegen\Interfaces\ConfigurationInterface;
-use StrannyiTip\PhpCodegen\Interfaces\GeneratorToolInterface;
+use StrannyiTip\PhpCodegen\AbstractTool;
 
-class SwingCodeRandom implements GeneratorToolInterface
+/**
+ * Swing random tool.
+ */
+class SwingCodeRandom extends AbstractTool
 {
-    /**
-     * Code generator.
-     *
-     * @var SimpleCode
-     */
-    private SimpleCode $generator;
-
-    public function __construct()
-    {
-        $this->generator = new SimpleCode();
-    }
-
     /**
      * @inheritDoc
      */
-    public function generate(ConfigurationInterface $configuration): int
+    public function generate(int $length): int
     {
-        $random = $this->generator->generate((new Configuration())->set('length', 1));
+        $random = $this->generator->generate(1);
 
         return match ($random%2 === 0) {
-            true => (new SwingCodeUp())->generate($configuration),
-            false => (new SwingCodeDown())->generate($configuration),
+            true => (new SwingCodeUp())->setGenerator($this->generator)->generate($random),
+            false => (new SwingCodeDown())->setGenerator($this->generator)->generate($random),
         };
     }
 }
