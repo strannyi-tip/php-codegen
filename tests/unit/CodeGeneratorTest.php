@@ -29,5 +29,7 @@ class CodeGeneratorTest extends \Codeception\Test\Unit
         $this->tester->assertEquals(5, \strlen($number5), "Test for generate expected length with repeat complex");
         $fill_code = $this->generator->generate(4, CodeGenerator::FILL_METHOD);
         $this->tester->assertEquals(4, \strlen($fill_code), "Test for generate expected length with fill method");
+        $round_code = $this->generator->generate(6, CodeGenerator::ROUND_METHOD);
+        $this->tester->assertEquals(6, \strlen($round_code), "Test for generate expected length with round method");
     }
 }

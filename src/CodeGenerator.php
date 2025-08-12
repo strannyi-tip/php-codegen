@@ -5,6 +5,7 @@ namespace StrannyiTip\PhpCodegen;
 use StrannyiTip\PhpCodegen\Tool\FillCode;
 use StrannyiTip\PhpCodegen\Tool\MirrorCode;
 use StrannyiTip\PhpCodegen\Tool\RepeatCode;
+use StrannyiTip\PhpCodegen\Tool\RoundCode;
 use StrannyiTip\PhpCodegen\Tool\SimpleCode;
 use StrannyiTip\PhpCodegen\Tool\SwingCodeDown;
 use StrannyiTip\PhpCodegen\Tool\SwingCodeRandom;
@@ -57,6 +58,11 @@ class CodeGenerator
     public const string FILL_METHOD = 'fill';
 
     /**
+     * Round method.
+     */
+    public const string ROUND_METHOD = 'round';
+
+    /**
      * Tools container.
      *
      * @var array
@@ -69,6 +75,7 @@ class CodeGenerator
         self::SWING_DOWN_METHOD => SwingCodeDown::class,
         self::SWING_RANDOM_METHOD => SwingCodeRandom::class,
         self::FILL_METHOD => FillCode::class,
+        self::ROUND_METHOD => RoundCode::class,
     ];
 
     /**
