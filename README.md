@@ -55,7 +55,7 @@ class MyRandomGenerator implements RandomGeneratorInterface
     /**
      * @inheritDoc
      */
-    public function generate(int $length): int
+    public function generate(int $length): string
     {
         $min = \str_repeat('1', $length);
         $max = \str_repeat('9', $length);
