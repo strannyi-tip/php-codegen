@@ -12,9 +12,9 @@ interface GeneratorToolInterface
      *
      * @param int $length Code length
      *
-     * @return int
+     * @return string
      */
-    public function generate(int $length): int;
+    public function generate(int $length): string;
 
     /**
      * Set random number generator.

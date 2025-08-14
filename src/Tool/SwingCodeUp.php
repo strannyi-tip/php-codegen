@@ -12,7 +12,7 @@ class SwingCodeUp extends AbstractTool
     /**
      * @inheritDoc
      */
-    public function generate(int $length): int
+    public function generate(int $length): string
     {
         return match ($length%2 === 0) {
             true => $this->generateSimple($length),
@@ -25,13 +25,13 @@ class SwingCodeUp extends AbstractTool
      *
      * @param int $length Code length
      *
-     * @return int
+     * @return string
      */
-    private function generateSimple(int $length): int
+    private function generateSimple(int $length): string
     {
         $number = $this->generator->generate(floor($length/2));
 
-        return $number . $number + 1;
+        return $number . (intval($number) + 1);
     }
 
     /**
@@ -39,13 +39,13 @@ class SwingCodeUp extends AbstractTool
      *
      * @param int $length Code length
      *
-     * @return int
+     * @return string
      */
-    private function generateComplex(int $length): int
+    private function generateComplex(int $length): string
     {
         $number = $this->generator->generate(floor($length/2));
         $delimiter = $this->generator->generate(1);
 
-        return intval($number . $delimiter . $number + 1);
+        return $number . $delimiter . (intval($number) + 1);
     }
 }

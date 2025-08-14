@@ -45,11 +45,6 @@ class CodeGenerator
     public const string SWING_DOWN_METHOD = 'swing_down';
 
     /**
-     * Swing random method.
-     */
-    public const string SWING_RANDOM_METHOD = 'swing_random';
-
-    /**
      * Fill method.
      */
     public const string FILL_METHOD = 'fill';
@@ -58,6 +53,11 @@ class CodeGenerator
      * Round method.
      */
     public const string ROUND_METHOD = 'round';
+
+    /**
+     * @var GeneratorToolInterface|null
+     */
+    public ?GeneratorToolInterface $tool = null;
 
     /**
      * Random generator.
@@ -76,7 +76,6 @@ class CodeGenerator
         self::REPEAT_METHOD => RepeatCode::class,
         self::SWING_UP_METHOD => SwingCodeUp::class,
         self::SWING_DOWN_METHOD => SwingCodeDown::class,
-        self::SWING_RANDOM_METHOD => SwingCodeRandom::class,
         self::FILL_METHOD => FillCode::class,
         self::ROUND_METHOD => RoundCode::class,
     ];
@@ -142,15 +141,24 @@ class CodeGenerator
      * @param int $length Code length
      * @param string $method Generating method
      *
-     * @return int
+     * @return string
      */
-    public function generate(int $length, string $method = self::RANDOM_METHOD): int
+    public function generate(int $length, string $method = self::RANDOM_METHOD): string
     {
         $tool_class = $this->selectToolClass($method);
         /** @var GeneratorToolInterface $tool_instance */
         $tool_instance = new $tool_class;
         $tool_instance->setGenerator($this->generator);
+        $this->tool = $tool_instance;
 
         return $tool_instance->generate($length);
+    }
+
+    /**
+     * @return GeneratorToolInterface|null
+     */
+    public function getTool(): ?GeneratorToolInterface
+    {
+        return $this->tool;
     }
 }
