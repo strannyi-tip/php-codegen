@@ -14,7 +14,7 @@ class RepeatCode extends AbstractTool
     /**
      * @inheritDoc
      */
-    public function generate(int $length): int
+    public function generate(int $length): string
     {
         return match ($length%2 === 0) {
             true => $this->generateSimple($length),
@@ -27,13 +27,13 @@ class RepeatCode extends AbstractTool
      *
      * @param int $length Number
      *
-     * @return int
+     * @return string
      */
-    private function generateSimple(int $length): int
+    private function generateSimple(int $length): string
     {
         $number = $this->generator->generate(2);
 
-        return intval(str_repeat($number, floor($length / 2)));
+        return str_repeat($number, floor($length / 2));
     }
 
     /**
@@ -41,9 +41,9 @@ class RepeatCode extends AbstractTool
      *
      * @param int $length Number
      *
-     * @return int
+     * @return string
      */
-    private function generateComplex(int $length): int
+    private function generateComplex(int $length): string
     {
         $number = $this->generator->generate(2);
         $delimiter = $this->generator->generate(1);
@@ -51,6 +51,6 @@ class RepeatCode extends AbstractTool
         $string_array = str_split($final_number);
         $string_array[($length/2)-1] = substr($number, 1, 1) . $delimiter;
 
-        return intval(implode('', $string_array));
+        return implode('', $string_array);
     }
 }

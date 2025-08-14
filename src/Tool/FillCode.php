@@ -13,10 +13,10 @@ class FillCode extends AbstractTool
     /**
      * @inheritDoc
      */
-    public function generate(int $length): int
+    public function generate(int $length): string
     {
         $number = $this->generator->generate(1);
 
-        return intval(\str_repeat($number, $length));
+        return \str_repeat($number, $length);
     }
 }

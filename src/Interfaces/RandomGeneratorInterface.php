@@ -12,7 +12,7 @@ interface RandomGeneratorInterface
      *
      * @param int $length Number length
      *
-     * @return int
+     * @return string
      */
-    public function generate(int $length): int;
+    public function generate(int $length): string;
 }

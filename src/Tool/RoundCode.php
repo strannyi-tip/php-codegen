@@ -13,10 +13,10 @@ class RoundCode extends AbstractTool
     /**
      * @inheritDoc
      */
-    public function generate(int $length): int
+    public function generate(int $length): string
     {
         $number = $this->generator->generate(1);
 
-        return intval($number . \str_repeat('0', $length - 1));
+        return $number . \str_repeat('0', $length - 1);
     }
 }

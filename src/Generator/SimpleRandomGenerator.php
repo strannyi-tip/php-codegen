@@ -12,11 +12,11 @@ class SimpleRandomGenerator implements RandomGeneratorInterface
     /**
      * @inheritDoc
      */
-    public function generate(int $length): int
+    public function generate(int $length): string
     {
-        $min = \str_repeat('1', $length);
+        $min = \str_repeat('0', $length);
         $max = \str_repeat('9', $length);
 
-        return \mt_rand(intval($min), intval($max));
+        return (string)\mt_rand(intval($min), intval($max));
     }
 }

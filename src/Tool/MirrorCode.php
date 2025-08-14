@@ -10,7 +10,10 @@ use StrannyiTip\PhpCodegen\AbstractTool;
  */
 class MirrorCode extends AbstractTool
 {
-    public function generate(int $length): int
+    /**
+     * @inheritDoc
+     */
+    public function generate(int $length): string
     {
         return $length%2 === 0 ? $this->generateSimple($length) : $this->generateComplex($length);
     }
@@ -20,14 +23,14 @@ class MirrorCode extends AbstractTool
      *
      * @param int $length Code length
      *
-     * @return int
+     * @return string
      */
-    private function generateSimple(int $length): int
+    private function generateSimple(int $length): string
     {
         $number = $this->generator->generate(floor($length/2));
         $mirror = $this->generateMirror($number);
 
-        return intval($number . $mirror);
+        return $number . $mirror;
     }
 
     /**
@@ -35,15 +38,15 @@ class MirrorCode extends AbstractTool
      *
      * @param int $length Code length
      *
-     * @return int
+     * @return string
      */
-    private function generateComplex(int $length): int
+    private function generateComplex(int $length): string
     {
         $number = $this->generator->generate(floor($length/2));
         $mirror = $this->generateMirror(\substr($number, 0, floor($length/2)));
         $delimiter = $this->generator->generate(1);
 
-        return intval(sprintf('%d%d%s', $number, $delimiter, $mirror));
+        return sprintf('%d%d%s', $number, $delimiter, $mirror);
     }
 
     /**
