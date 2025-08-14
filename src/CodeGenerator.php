@@ -45,11 +45,6 @@ class CodeGenerator
     public const string SWING_DOWN_METHOD = 'swing_down';
 
     /**
-     * Swing random method.
-     */
-    public const string SWING_RANDOM_METHOD = 'swing_random';
-
-    /**
      * Fill method.
      */
     public const string FILL_METHOD = 'fill';
